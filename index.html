@@ -1,32 +1,127 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Scone</title>
-    <link rel="stylesheet" href="/src/styles/home.css">
-
+    <title>MySchool.com</title>
+    <link rel="stylesheet" href="./src/css/style.css">
 </head>
 <body>
-  
+    <header class="header">
+        <h1>MySchool.com</h1>
+        <nav class="nav">
+            <a href="#">Home    </a>
+            <a href="#">About   </a>
+            <a href="#">Contact </a>
+            <a href="#" class="logout">Logout (User)    </a>
+        </nav>
+    </header>
+
     <main>
-        <aside>
-            <img src="src/assets/images/lescone-icone.svg" alt="Logo Le Scone">
-<div class="contact">
-    <div class="contact-info">
-        <p>De Seg. à Sab. <span></span></p>
-        <p>das 07:00h às 18:00h</p>
-        <div class="contact-address">
-            <p>Praia de Botafogo, 300</p>
-            <p>Rio de Janeiro - RJ</p>
+        <section class="container">
+            <h2>Lista de Alunos:</h2>
+            <button class="novo_estudante">+ Novo</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>RM</th>
+                        <th>Responsável</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit"></button>
+                            <button class="delete"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="src/img/foto_perfil.png" alt="Foto"> Thiago Pereira</td>
+                        <td>12322334</td>
+                        <td>thiagopereira@gmail.com</td>
+                        <td>12322334</td>
+                        <td>202030</td>
+                        <td>José</td>
+                        <td>
+                            <button class="edit">✏️</button>
+                            <button class="delete">🗑️</button>
+                        </td>
+                    </tr>
 
-        </div>
-    </div>
-    <p>+55 021 2412-3333</p>
-</div>
-        </aside>
-        <img src="/src/assets/images/foto.jpg.png" alt="Negro na cozinha">
+                </tbody>
+            </table>
+        </section>
     </main>
-
 </body>
 </html>
