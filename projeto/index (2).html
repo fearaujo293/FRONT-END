@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySchool.com</title>
+  <link rel="stylesheet" href="./src/css/style.css">
+ 
+<body>
+  <header class="header">
+    <h1>MySchool.com</h1>
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#" class="logout">Logout (User)</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Lista de Alunos -->
+    <section class="container">
+      <div class="title-row">
+        <h2>Lista de Alunos</h2>
+        <button class="new-button" onclick="showStudentForm(null)">+ Novo Aluno</button>
+      </div>
+      <table class="students-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>RM</th>
+            <th>Responsável</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- Detalhes do Aluno -->
+    <section id="studentDetails" class="student-details" style="display: none;">
+      <h2>Detalhes do Aluno</h2>
+      <p><strong>Nome:</strong> <span id="detailName"></span></p>
+      <p><strong>ID:</strong> <span id="detailID"></span></p>
+      <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+      <p><strong>Telefone:</strong> <span id="detailPhone"></span></p>
+      <p><strong>RM:</strong> <span id="detailRM"></span></p>
+      <p><strong>Responsável:</strong> <span id="detailGuardian"></span></p>
+      <a href="#" class="back-button" onclick="closeStudentDetails()">Voltar</a>
+    </section>
+
+    <!-- Modal de Cadastro -->
+    <div class="modal-form" id="newStudentModal">
+      <div class="modal-form-content">
+        <span class="close-modal-form" onclick="closeFormModal()">&times;</span>
+        <h2>Aluno - Informações Essenciais</h2>
+        <form>
+          <div class="form-group">
+            <label for="studentName">Nome</label>
+            <input type="text" id="studentName" placeholder="Digite o nome do aluno">
+          </div>
+          <div class="form-group">
+            <label for="studentPhone">Telefone</label>
+            <input type="text" id="studentPhone" placeholder="Digite o telefone">
+          </div>
+          <div class="form-group">
+            <label for="studentRM">RM</label>
+            <input type="text" id="studentRM" placeholder="Digite o RM">
+          </div>
+          <div class="form-group">
+            <label for="studentEmail">E-mail</label>
+            <input type="email" id="studentEmail" placeholder="Digite o e-mail">
+            <div id="emailError" class="error-message" style="display: none;">Este email já está cadastrado.</div>
+          </div>
+          <div class="form-group">
+            <label for="studentGuardian">Responsável</label>
+            <input type="text" id="studentGuardian" placeholder="Digite o nome do responsável">
+          </div>
+          <div class="form-group">
+            <label for="studentPhoto">Foto do Aluno</label>
+            <div class="form-upload">Solte aqui a imagem do aluno</div>
+          </div>
+          <button type="submit" class="form-submit">Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script src="src/js/script.js" ></script>
+  <script src="src/js/renderStudentList.js"></script>
+</body>
+</html>
