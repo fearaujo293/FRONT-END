@@ -1,75 +1,102 @@
 function renderStudentList() {
-  studentTableBody.innerHTML = ''; 
+  studentTableBody.innerHTML = ''; // Limpa a tabela existente
+
+  const fragment = document.createDocumentFragment(); // Fragmento para manipulação otimizada do DOM
 
   students.forEach(student => {
-      const row = document.createElement('tr');
+    const row = document.createElement('tr'); // Criação da linha
 
-      // Célula do nome
-      const nameCell = document.createElement('td');
+    // Célula de nome com botão e imagem
+    const nameCell = createImageButtonCell(
+      '/src/img/jorge.PNG', 
+      'Foto de perfil', 
+      'profile-pic', 
+      () => openStudentDetails(student)
+    );
 
-      // Criação do botão com imagem
-      const imgButton = document.createElement('button');
-      imgButton.classList.add('src/img/jorge.PNG'); // Adiciona classe para estilização
+    // Outras células de dados
+    const idCell = createCell(student.id);
+    const emailCell = createCell(student.email);
+    const phoneCell = createCell(student.phone);
+    const rmCell = createCell(student.rm);
+    const guardianCell = createCell(student.guardian);
 
-      const imgElement = document.createElement('img');
-      imgElement.src = '/src/img/jorge.PNG'; // Caminho da imagem
-      imgElement.alt = 'Foto de perfil';
-      imgElement.classList.add('profile-pic');
+    // Célula de ações com botões de editar e excluir
+    const actionsCell = createActionsCell(student);
 
-      // Adiciona a imagem ao botão
-      imgButton.appendChild(imgElement);
+    // Adiciona todas as células à linha
+    row.append(nameCell, idCell, emailCell, phoneCell, rmCell, guardianCell, actionsCell);
 
-      // Adiciona evento de clique para abrir detalhes do aluno
-      imgButton.onclick = () => openStudentDetails(student);
-
-      // Adiciona o botão à célula
-      nameCell.appendChild(imgButton);
-
-      // Células de dados
-      const idCell = document.createElement('td');
-      idCell.textContent = student.id;
-
-      const emailCell = document.createElement('td');
-      emailCell.textContent = student.email;
-
-      const phoneCell = document.createElement('td');
-      phoneCell.textContent = student.phone;
-
-      const rmCell = document.createElement('td');
-      rmCell.textContent = student.rm;
-
-      const guardianCell = document.createElement('td');
-      guardianCell.textContent = student.guardian;
-
-      // Célula de ações
-      const actionsCell = document.createElement('td');
-
-      const editBtn = document.createElement('img');
-      editBtn.src = 'src/img/alterar (1).PNG'; // Caminho da imagem de editar
-      editBtn.alt = 'Editar';
-      editBtn.title = 'Editar';
-      editBtn.onclick = () => showStudentForm(student);
-
-      const deleteBtn = document.createElement('img');
-      deleteBtn.src = 'src/img/excluir.PNG'; // Caminho da imagem de excluir
-      deleteBtn.alt = 'Excluir';
-      deleteBtn.title = 'Excluir';
-      deleteBtn.onclick = () => deleteStudent(student);
-
-      // Adiciona os botões de editar e excluir à célula de ações
-      actionsCell.appendChild(editBtn);
-      actionsCell.appendChild(deleteBtn);
-
-      // Adiciona todas as células à linha
-      row.appendChild(nameCell);
-      row.appendChild(idCell);
-      row.appendChild(emailCell);
-      row.appendChild(phoneCell);
-      row.appendChild(rmCell);
-      row.appendChild(guardianCell);
-      row.appendChild(actionsCell);
-
-      // Adiciona a linha à tabela
-      studentTableBody.appendChild(row);
+    // Adiciona a linha ao fragmento
+    fragment.appendChild(row);
   });
+
+  // Adiciona o fragmento à tabela de forma otimizada
+  studentTableBody.appendChild(fragment);
+}
+
+/**
+ * Função auxiliar para criar uma célula com texto.
+ */
+function createCell(content) {
+  const cell = document.createElement('td');
+  cell.textContent = content;
+  return cell;
+}
+
+/**
+ * Função auxiliar para criar uma célula com um botão contendo uma imagem.
+ */
+function createImageButtonCell(imgSrc, imgAlt, imgClass, onClick) {
+  const cell = document.createElement('td');
+
+  const button = document.createElement('button');
+  button.classList.add('image-button'); // Classe genérica para estilização
+
+  const img = document.createElement('img');
+  img.src = imgSrc;
+  img.alt = imgAlt;
+  img.classList.add(imgClass);
+
+  button.appendChild(img);
+  button.onclick = onClick;
+
+  cell.appendChild(button);
+  return cell;
+}
+
+/**
+ * Função auxiliar para criar uma célula de ações com botões de editar e excluir.
+ */
+function createActionsCell(student) {
+  const cell = document.createElement('td');
+
+  const editBtn = createActionButton(
+    'src/img/alterar (1).PNG',
+    'Editar',
+    'Editar',
+    () => showStudentForm(student)
+  );
+
+  const deleteBtn = createActionButton(
+    'src/img/excluir.PNG',
+    'Excluir',
+    'Excluir',
+    () => deleteStudent(student)
+  );
+
+  cell.append(editBtn, deleteBtn);
+  return cell;
+}
+
+/**
+ * Função auxiliar para criar um botão de ação com uma imagem.
+ */
+function createActionButton(imgSrc, imgAlt, imgTitle, onClick) {
+  const btn = document.createElement('img');
+  btn.src = imgSrc;
+  btn.alt = imgAlt;
+  btn.title = imgTitle;
+  btn.onclick = onClick;
+  return btn;
 }

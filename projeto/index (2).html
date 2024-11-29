@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MySchool.com</title>
   <link rel="stylesheet" href="./src/css/style.css">
- 
+</head>
 <body>
   <header class="header">
     <h1>MySchool.com</h1>
@@ -31,7 +31,7 @@
             <th>ID</th>
             <th>Email</th>
             <th>Telefone</th>
-            <th>RM</th>
+            <th>Matrícula</th>
             <th>Responsável</th>
             <th>Ações</th>
           </tr>
@@ -39,7 +39,6 @@
         <tbody id="studentTableBody"></tbody>
       </table>
     </section>
-
     <!-- Detalhes do Aluno -->
     <section id="studentDetails" class="student-details" style="display: none;">
       <h2>Detalhes do Aluno</h2>
@@ -47,7 +46,7 @@
       <p><strong>ID:</strong> <span id="detailID"></span></p>
       <p><strong>Email:</strong> <span id="detailEmail"></span></p>
       <p><strong>Telefone:</strong> <span id="detailPhone"></span></p>
-      <p><strong>RM:</strong> <span id="detailRM"></span></p>
+      <p><strong>Matrícula:</strong> <span id="detailRM"></span></p>
       <p><strong>Responsável:</strong> <span id="detailGuardian"></span></p>
       <a href="#" class="back-button" onclick="closeStudentDetails()">Voltar</a>
     </section>
@@ -57,7 +56,7 @@
       <div class="modal-form-content">
         <span class="close-modal-form" onclick="closeFormModal()">&times;</span>
         <h2>Aluno - Informações Essenciais</h2>
-        <form>
+        <form id="studentForm">
           <div class="form-group">
             <label for="studentName">Nome</label>
             <input type="text" id="studentName" placeholder="Digite o nome do aluno">
@@ -67,8 +66,8 @@
             <input type="text" id="studentPhone" placeholder="Digite o telefone">
           </div>
           <div class="form-group">
-            <label for="studentRM">RM</label>
-            <input type="text" id="studentRM" placeholder="Digite o RM">
+            <label for="studentRM">Matrícula</label>
+            <input type="text" id="studentRM" placeholder="Digite o Matrícula">
           </div>
           <div class="form-group">
             <label for="studentEmail">E-mail</label>
@@ -81,14 +80,174 @@
           </div>
           <div class="form-group">
             <label for="studentPhoto">Foto do Aluno</label>
-            <div class="form-upload">Solte aqui a imagem do aluno</div>
+            <input type="file" id="studentPhoto" accept="image/*">
+            <br>
+            <img id="previewPhoto" class="preview-photo" style="display: none; max-width: 100px; border-radius: 50%;">
           </div>
           <button type="submit" class="form-submit">Confirmar</button>
         </form>
       </div>
     </div>
   </main>
-  <script src="src/js/script.js" ></script>
+
+  <script src="src/js/script.js"></script>
   <script src="src/js/renderStudentList.js"></script>
+  <script>
+    // Definindo variáveis e inicializando a lista de alunos
+    let students = [];
+
+    const studentTableBody = document.getElementById('studentTableBody');
+    const newStudentModal = document.getElementById('newStudentModal');
+    const studentPhotoInput = document.getElementById('studentPhoto');
+    const previewPhoto = document.getElementById('previewPhoto');
+    const studentForm = document.getElementById('studentForm');
+    const emailInput = document.getElementById('studentEmail');
+    const emailErrorDiv = document.getElementById('emailError');
+
+    // Função para renderizar a lista de alunos na tabela
+    function renderStudentList() {
+      studentTableBody.innerHTML = ''; // Limpa a tabela
+
+      students.forEach(student => {
+        const row = document.createElement('tr');
+
+        // Criação das células para cada aluno
+        const nameCell = createNameCell(student);
+        const idCell = createTextCell(student.id);
+        const emailCell = createTextCell(student.email);
+        const phoneCell = createTextCell(student.phone);
+        const rmCell = createTextCell(student.rm);
+        const guardianCell = createTextCell(student.guardian);
+        const actionsCell = createActionsCell(student);
+
+        // Adiciona as células à linha
+        row.append(nameCell, idCell, emailCell, phoneCell, rmCell, guardianCell, actionsCell);
+
+        // Adiciona a linha à tabela
+        studentTableBody.appendChild(row);
+      });
+    }
+
+    // Função para criar a célula do nome com a foto
+    function createNameCell(student) {
+      const nameCell = document.createElement('td');
+      const imgElement = document.createElement('img');
+      imgElement.src = student.foto || 'img/default-image.png'; // Foto ou imagem padrão
+      imgElement.alt = 'Foto do aluno';
+      imgElement.style.width = '50px';
+      imgElement.style.height = '50px';
+      imgElement.style.borderRadius = '50%';
+
+      const nameLink = document.createElement('a');
+      nameLink.href = '#';
+      nameLink.textContent = student.name;
+      nameLink.onclick = () => openStudentDetails(student);
+
+      nameCell.append(imgElement, nameLink);
+      return nameCell;
+    }
+
+    // Função para criar células de texto
+    function createTextCell(content) {
+      const cell = document.createElement('td');
+      cell.textContent = content;
+      return cell;
+    }
+
+    // Função para criar célula de ações
+    function createActionsCell(student) {
+      const actionsCell = document.createElement('td');
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Excluir';
+      deleteButton.onclick = () => deleteStudent(student);
+
+      actionsCell.appendChild(deleteButton);
+      return actionsCell;
+    }
+
+    // Função para excluir um aluno
+    function deleteStudent(student) {
+      students = students.filter(s => s.id !== student.id);
+      renderStudentList();
+    }
+
+    // Função para exibir os detalhes do aluno
+    function openStudentDetails(student) {
+      document.getElementById('detailName').textContent = student.name;
+      document.getElementById('detailID').textContent = student.id;
+      document.getElementById('detailEmail').textContent = student.email;
+      document.getElementById('detailPhone').textContent = student.phone;
+      document.getElementById('detailRM').textContent = student.rm;
+      document.getElementById('detailGuardian').textContent = student.guardian;
+      document.getElementById('studentDetails').style.display = 'block';
+    }
+
+    // Função para fechar os detalhes do aluno
+    function closeStudentDetails() {
+      document.getElementById('studentDetails').style.display = 'none';
+    }
+
+    // Função para mostrar o formulário de cadastro de aluno
+    function showStudentForm(student = null) {
+      if (student) {
+        document.getElementById('studentName').value = student.name;
+        document.getElementById('studentPhone').value = student.phone;
+        document.getElementById('studentRM').value = student.rm;
+        document.getElementById('studentEmail').value = student.email;
+        document.getElementById('studentGuardian').value = student.guardian;
+      } else {
+        studentForm.reset();
+        previewPhoto.style.display = 'none';
+      }
+
+      newStudentModal.style.display = 'flex';
+    }
+
+    // Função para fechar o formulário de cadastro
+    function closeFormModal() {
+      newStudentModal.style.display = 'none';
+    }
+
+    // Validando o email
+    emailInput.addEventListener('blur', function() {
+      const emailExists = students.some(student => student.email === emailInput.value);
+      emailErrorDiv.style.display = emailExists ? 'block' : 'none';
+    });
+
+    // Função para lidar com o envio do formulário
+    studentForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const student = {
+        id: Date.now(),
+        name: document.getElementById('studentName').value,
+        phone: document.getElementById('studentPhone').value,
+        rm: document.getElementById('studentRM').value,
+        email: document.getElementById('studentEmail').value,
+        guardian: document.getElementById('studentGuardian').value,
+        foto: previewPhoto.src
+      };
+
+      students.push(student);
+      renderStudentList();
+      closeFormModal();
+    });
+
+    // Função para pré-visualizar a foto do aluno
+    studentPhotoInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewPhoto.src = e.target.result;
+          previewPhoto.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Renderizando a lista de alunos inicial
+    renderStudentList();
+  </script>
 </body>
 </html>
